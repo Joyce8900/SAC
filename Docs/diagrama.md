@@ -1,4 +1,8 @@
 🔧 Projeto 1: Sistema de Agendamento de Consultas Médicas
+[Repository Link](https://github.com/Gustavo-DSC/poo2projeto.git)
+
+/*************  ✨ Smart Paste 📚  *************/
+/*******  75646f17-9215-4be1-a62a-b5327632d298  *******/
 Descrição: Permite que pacientes agendem consultas, médicos visualizem horários disponíveis e a recepção gerencie os atendimentos.
 
 📐 Padrões e Princípios Aplicados:
@@ -46,6 +50,7 @@ classDiagram
         +int id
         +string nome
         +string telefone
+        +int datnasc
         +agendarConsulta()
         +cancelarConsulta()
     }
@@ -54,6 +59,7 @@ classDiagram
         +int id
         +string nome
         +string especialidade
+        +string crmrn
         +consultarAgenda()
     }
 
