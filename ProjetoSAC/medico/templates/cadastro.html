@@ -11,40 +11,11 @@
   <div class="container mt-5">
     <h2 class="mb-4">Cadastrar Médico</h2>
     
-    <form method="post" class="col-md-6">
+    <form method="post" enctype="multipart/form-data" class="col-md-6">
       {% csrf_token %}
-        
-      <div class="mb-3">
-        {{form.nome.errors}}
-        {{ form.nome.label_tag }}
-        {{ form.nome }}
-      </div>    
-
-      <div class="mb-3">
-        {{form.crm.errors}}
-        {{ form.crm.label_tag }}
-        {{ form.crm }}
-      </div>
-      
-      <div class="mb-3">
-        {{form.especialidade.errors}}
-        {{ form.especialidade.label_tag }}
-        {{ form.especialidade }}
-      </div>
-      
-      <div class="form-group">
-        <label for="{{ form.foto.id_for_label }}">Foto:</label>
-        {{ form.foto }}
-        <small class="form-text text-muted">Formatos aceitos: JPG, PNG</small>
-        {% if form.foto.errors %}
-            <div class="alert alert-danger">{{ form.foto.errors }}</div>
-        {% endif %}
-      </div>
-      {% csrf_token %}
-     
+        {{form.messages.errors}}      
+        {{ form.as_p}}
       <button type="submit" class="btn btn-success">Salvar</button>
-      
-      
     </form>
   </div>
 
