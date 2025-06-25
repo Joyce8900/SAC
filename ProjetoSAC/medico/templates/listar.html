@@ -56,34 +56,39 @@
       <table class="table table-striped table-hover align-middle">
         <thead class="table-light">
           <tr>
+            <th>Foto</th>
             <th>Nome</th>
             <th>CRM</th>
             <th>Especialidade</th>
-            <th>Foto</th>
-            {% comment %} <th class="text-end actions-column">Ações</th> {% endcomment %}
+            <th class="text-end actions-column">Ações</th> 
           </tr>
         </thead>
         <tbody>
           {% for medico in medicos %}
           <tr>
-            <td>{{ medico.nome }}</td>
-            <td>{{ medico.crm }}</td>
-            <td>{{ medico.especialidade }}</td>
             <td>
               {% if medico.foto %}
-                <img src="{{ medico.foto.url }}" alt="{{ medico.nome }}" class="img-thumbnail" style="max-height: 50px;">
+                <img src="{{ medico.foto.url }}" alt="{{ medico.nome }}"  style="max-height: 50px; max-width: 50px" class="rounded" >
               {% else %}
                 <span class="text-muted">Sem foto</span>
               {% endif %}
             </td>
-            {% comment %} <td class="text-end actions-column">
-              <a href="{% url 'editar_medico' medico.pk %}" class="btn btn-sm btn-outline-primary me-1">
+            <td>{{ medico.nome }}</td>
+            <td>{{ medico.crm }}</td>
+            <td>{{ medico.especialidade }}</td>
+            
+           <td class="text-end actions-column">
+              <a href="{% url 'editar' medico.pk %}" class="btn btn-sm btn-outline-primary me-1">
                 <i class="bi bi-pencil"></i>
               </a>
-              <a href="{% url 'excluir_medico' medico.pk %}" class="btn btn-sm btn-outline-danger">
+
+              <a href="{% url 'detalhe' medico.pk %}" class="btn btn-sm btn-outline-info">
+                <i class="bi bi-info-circle"></i>
+              </a>
+             <a href="{% url 'excluir' medico.pk %}" class="btn btn-sm btn-outline-danger">
                 <i class="bi bi-trash"></i>
               </a>
-            </td> {% endcomment %}
+            </td> 
           </tr>
           {% empty %}
           <tr>
