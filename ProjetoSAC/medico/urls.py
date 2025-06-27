@@ -1,6 +1,8 @@
 from django.urls import path
 from medico.views import MedicoListView, MedicoCreateView, MedicoUpdateView, MedicoDetailView, MedicoDeleteView 
 
+app_name = 'medico'
+
 urlpatterns = [
     path('', MedicoListView.as_view(), name='medicos'),
     path('cadastro/', MedicoCreateView.as_view(), name='cadastro'),
