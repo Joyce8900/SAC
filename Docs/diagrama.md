@@ -51,6 +51,7 @@ classDiagram
         +string nome
         +string telefone
         +int datnasc
+        +string email 
         +agendarConsulta()
         +cancelarConsulta()
     }
