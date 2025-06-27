@@ -13,8 +13,9 @@
     
     <form method="post" enctype="multipart/form-data" class="col-md-6">
       {% csrf_token %}
-        {{form.messages.errors}}      
+             
         {{ form.as_p}}
+        {{form.messages.errors}} 
       <button type="submit" class="btn btn-success">Salvar</button>
     </form>
   </div>

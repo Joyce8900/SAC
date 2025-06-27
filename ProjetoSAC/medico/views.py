@@ -8,34 +8,34 @@ URL = '/medicos/'
 
 class MedicoListView(ListView):
   model = Medico
-  template_name = 'listar.html'
+  template_name = 'medico/medico_listar.html'
   context_object_name = 'medicos'
 
 class MedicoCreateView(CreateView):
     model = Medico
     form_class = MedicoForm
-    template_name = 'cadastro.html'
-    success_url = URL # Redirect after successful creation
+    template_name = 'medico/medico_cadastro.html'
+    success_url = URL 
     
 
 class MedicoUpdateView(UpdateView):
     model = Medico
     form_class = MedicoForm
-    template_name = 'editar.html'
+    template_name = 'medico/medico_editar.html'
     success_url = URL
     slug_field = 'crm'
     slug_url_kwarg = 'crm'
 
 class MedicoDetailView(DetailView):
     model = Medico
-    template_name = 'detalhe.html'
+    template_name = 'medico/medico_detalhe.html'
     context_object_name = URL
     slug_field = 'crm'
     slug_url_kwarg = 'crm'
 
 class MedicoDeleteView(DeleteView):
     model = Medico
-    template_name = 'excluir.html'
+    template_name = 'medico/medico_excluir.html'
     slug_field = 'crm'
     slug_url_kwarg = 'crm'
     success_url = URL

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-  <title>Listar Pacientes</title>
+  <title>Listar Médicos</title>
   <style>
     .actions-column {
       white-space: nowrap; /* Impede quebra de linha nos botões */
@@ -34,9 +34,9 @@
 <body>
   <div class="container py-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2><i class="bi bi-people-fill me-2"></i>Lista de Paciente</h2>
-      <a href="{% url 'cadastro' %}" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i> Novo Paciente
+      <h2><i class="bi bi-people-fill me-2"></i>Lista de Médicos</h2>
+      <a href="{% url 'medico:cadastro' %}" class="btn btn-primary">
+        <i class="bi bi-plus-lg"></i> Novo Médico
       </a>
     </div>
 
@@ -58,36 +58,34 @@
           <tr>
             <th>Foto</th>
             <th>Nome</th>
-            <th>CPF</th>
-            <th>Telefone</th>
-            <th>Data de Nascimento</th>
+            <th>CRM</th>
+            <th>Especialidade</th>
             <th class="text-end actions-column">Ações</th> 
           </tr>
         </thead>
         <tbody>
-          {% for paciente in pacientes %}
+          {% for medico in medicos %}
           <tr>
             <td>
-              {% if paciente.foto %}
-                <img src="{{ paciente.foto.url }}" alt="{{ paciente.nome }}"  style="max-height: 50px; max-width: 50px" class="rounded" >
+              {% if medico.foto %}
+                <img src="{{ medico.foto.url }}" alt="{{ medico.nome }}"  style="max-height: 50px; max-width: 50px" class="rounded" >
               {% else %}
                 <span class="text-muted">Sem foto</span>
               {% endif %}
             </td>
-            <td>{{ paciente.nome }}</td>
-            <td>{{ paciente.cpf }}</td>
-            <td>{{ paciente.telefone }}</td>
-            <td>{{ paciente.data_nascimento }}</td>
+            <td>{{ medico.nome }}</td>
+            <td>{{ medico.crm }}</td>
+            <td>{{ medico.especialidade }}</td>
             
            <td class="text-end actions-column">
-              <a href="{% url 'editar' paciente.pk %}" class="btn btn-sm btn-outline-primary me-1">
+              <a href="{% url 'medico:editar' medico.pk %}" class="btn btn-sm btn-outline-primary me-1">
                 <i class="bi bi-pencil"></i>
               </a>
 
-              <a href="{% url 'detalhe' paciente.pk %}" class="btn btn-sm btn-outline-info">
+              <a href="{% url 'medico:detalhe' medico.pk %}" class="btn btn-sm btn-outline-info">
                 <i class="bi bi-info-circle"></i>
               </a>
-             <a href="{% url 'excluir' paciente.pk %}" class="btn btn-sm btn-outline-danger">
+             <a href="{% url 'medico:excluir' medico.pk %}" class="btn btn-sm btn-outline-danger">
                 <i class="bi bi-trash"></i>
               </a>
             </td> 
@@ -95,7 +93,7 @@
           {% empty %}
           <tr>
             <td colspan="4" class="text-center empty-table-message">
-              <i class="bi bi-info-circle-fill me-2"></i>Nenhum paciente cadastrado
+              <i class="bi bi-info-circle-fill me-2"></i>Nenhum médico cadastrado
             </td>
           </tr>
           {% endfor %}
