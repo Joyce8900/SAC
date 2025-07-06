@@ -18,6 +18,8 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440
 FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440
 ALLOWED_HOSTS = []
 # settings.py
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -32,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'medico',
     'paciente',
+    'usuarios',
 ]
 
 MIDDLEWARE = [
@@ -49,10 +52,13 @@ ROOT_URLCONF = 'ProjetoSAC.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),  # Templates globais
+        ],
+        'APP_DIRS': True,  # Procura templates dentro de cada app
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
