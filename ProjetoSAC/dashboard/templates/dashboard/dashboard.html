@@ -1,0 +1,333 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - ProjetoSAC{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+<style>
+    .stat-card {
+        transition: transform 0.3s;
+        border-left: 4px solid;
+    }
+    .stat-card:hover {
+        transform: translateY(-5px);
+    }
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+    .table-responsive {
+        max-height: 400px;
+        overflow-y: auto;
+    }
+    .badge-status {
+        font-size: 0.85rem;
+        padding: 0.35em 0.65em;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4">
+    <!-- Cabeçalho -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+        <div class="d-flex">
+            <span class="badge bg-primary fs-6">{{ current_date }}</span>
+        </div>
+    </div>
+
+    <!-- Cards de Estatísticas -->
+    <div class="row">
+        <!-- Card Médicos -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="stat-card card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Médicos Cadastrados</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.total_medicos }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-people-fill fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Pacientes -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="stat-card card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Pacientes Cadastrados</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.total_pacientes }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-person-lines-fill fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Consultas Hoje -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="stat-card card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Consultas Hoje</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.consultas_hoje }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-calendar-check fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Taxa Conclusão -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="stat-card card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Taxa de Conclusão</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ stats.taxa_conclusao }}%</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-check-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gráficos e Tabelas -->
+    <div class="row">
+        <!-- Gráfico de Atendimentos Mensais -->
+        <div class="col-xl-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Atendimentos Mensais</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="atendimentosChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráfico de Status de Consultas -->
+        <div class="col-xl-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Status das Consultas</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Consultas -->
+    <div class="row">
+        <!-- Consultas de Hoje -->
+        <div class="col-xl-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Consultas de Hoje</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Horário</th>
+                                    <th>Paciente</th>
+                                    <th>Médico</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for consulta in consultas_hoje %}
+                                <tr>
+                                    <td>{{ consulta.data|time:"H:i" }}</td>
+                                    <td>{{ consulta.paciente.nome }}</td>
+                                    <td>Dr. {{ consulta.medico.nome }}</td>
+                                    <td>
+                                        <span class="badge badge-status 
+                                            {% if consulta.status == 'agendada' %}bg-primary
+                                            {% elif consulta.status == 'realizada' %}bg-success
+                                            {% else %}bg-warning{% endif %}">
+                                            {{ consulta.get_status_display }}
+                                        </span>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center">Nenhuma consulta hoje</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Próximas Consultas -->
+        <div class="col-xl-6 mb-4">
+            <div class="card shadow h-100">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Próximas Consultas</h6>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Data/Hora</th>
+                                    <th>Paciente</th>
+                                    <th>Médico</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for consulta in proximas_consultas %}
+                                <tr>
+                                    <td>{{ consulta.data|date:"d/m/Y H:i" }}</td>
+                                    <td>{{ consulta.paciente.nome }}</td>
+                                    <td>Dr. {{ consulta.medico.nome }}</td>
+                                    <td>
+                                        <span class="badge badge-status 
+                                            {% if consulta.status == 'agendada' %}bg-primary
+                                            {% elif consulta.status == 'realizada' %}bg-success
+                                            {% else %}bg-warning{% endif %}">
+                                            {{ consulta.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="{% url 'consulta:detalhe' consulta.id %}" 
+                                           class="btn btn-sm btn-info">
+                                            <i class="bi bi-eye"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% empty %}
+                                <tr>
+                                    <td colspan="5" class="text-center">Nenhuma consulta agendada</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ações Rápidas -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Ações Rápidas</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2 d-md-flex">
+                        <a href="{% url 'paciente:cadastro' %}" class="btn btn-primary me-md-2">
+                            <i class="bi bi-person-plus"></i> Novo Paciente
+                        </a>
+                        <a href="{% url 'medico:cadastro' %}" class="btn btn-success me-md-2">
+                            <i class="bi bi-plus-circle"></i> Cadastrar Médico
+                        </a>
+                        <a href="{% url 'consulta:agendar' %}" class="btn btn-info me-md-2">
+                            <i class="bi bi-calendar-plus"></i> Agendar Consulta
+                        </a>
+                        <a href="{% url 'admin:index' %}" class="btn btn-secondary ms-auto">
+                            <i class="bi bi-gear"></i> Administração
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const chartData = JSON.parse('{{ chart_data|escapejs }}');
+    
+    // Gráfico de Atendimentos Mensais (Barras)
+    const atendimentosCtx = document.getElementById('atendimentosChart').getContext('2d');
+    new Chart(atendimentosCtx, {
+        type: 'bar',
+        data: {
+            labels: chartData.atendimentos_mensais.labels,
+            datasets: [{
+                label: 'Atendimentos',
+                data: chartData.atendimentos_mensais.data,
+                backgroundColor: chartData.atendimentos_mensais.color,
+                borderColor: chartData.atendimentos_mensais.color,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+
+    // Gráfico de Status (Doughnut)
+    const statusCtx = document.getElementById('statusChart').getContext('2d');
+    new Chart(statusCtx, {
+        type: 'doughnut',
+        data: {
+            labels: chartData.status_consultas.labels,
+            datasets: [{
+                data: chartData.status_consultas.data,
+                backgroundColor: chartData.status_consultas.colors,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}
