@@ -2,10 +2,13 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from .models import Paciente
 from .forms import PacienteForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
 
 URL = '/pacientes/'
 
-
+@method_decorator(login_required, name='dispatch')
 class PacienteListView(ListView):
   model = Paciente
   template_name =  'paciente/paciente_listar.html'
