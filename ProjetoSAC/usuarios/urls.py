@@ -1,9 +1,10 @@
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from .views import Cadastro, Login, Home
-
 
 urlpatterns = [
     path('cadastro/', Cadastro.as_view(), name='cadastro'),
-    path('login/', Login.as_view(), name='login'),
+    path('', Login.as_view(), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('home/', Home.as_view(), name='home'),
 ]
