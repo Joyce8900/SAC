@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Consultas{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Próximas Consultas</h2>
+    
+    <div class="table-responsive mt-4">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Data/Hora</th>
+                    <th>Paciente</th>
+                    <th>Médico</th>
+                    <th>Tipo</th>
+                    <th>Status</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for consulta in consultas %}
+                <tr>
+                    <td>{{ consulta.data|date:"d/m/Y H:i" }}</td>
+                    <td>{{ consulta.paciente.nome }}</td>
+                    <td>Dr. {{ consulta.medico.nome }}</td>
+                    <td>{{ consulta.get_tipo_display }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if consulta.status == 'agendada' %}bg-primary
+                            {% elif consulta.status == 'realizada' %}bg-success
+                            {% else %}bg-warning{% endif %}">
+                            {{ consulta.get_status_display }}
+                        </span>
+                    </td>
+                    <td>
+                        <a href="{% url 'consulta:detalhe' consulta.pk %}" 
+                           class="btn btn-sm btn-info">
+                            Detalhes
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="text-center">Nenhuma consulta agendada</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
