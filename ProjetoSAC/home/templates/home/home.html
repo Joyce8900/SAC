@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block title %}Bem-vindo ao ProjetoSAC{% endblock %}
+
+{% block content %}
+<!-- Seção Hero -->
+<section class="hero-section">
+    <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-4">Sistema de Atendimento Clínico</h1>
+        <p class="lead mb-5">Gestão completa para médicos e pacientes em uma única plataforma</p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'dashboard' %}" class="btn btn-light btn-lg px-4 me-2">Acessar Dashboard</a>
+        {% else %}
+        <a href="{% url 'cadastro' %}" class="btn btn-light btn-lg px-4 me-2">Cadastre-se</a>
+        <a href="{% url 'login' %}" class="btn btn-outline-light btn-lg px-4">Entrar</a>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Seção Recursos -->
+<section class="py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Nossos Recursos</h2>
+            <p class="lead text-muted">Tudo que você precisa para gestão médica eficiente</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card feature-card h-100 p-4">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-people feature-icon"></i>
+                    </div>
+                    <h3 class="text-center">Gestão de Pacientes</h3>
+                    <p class="text-center">Cadastro completo de pacientes com histórico médico detalhado.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card h-100 p-4">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-file-medical feature-icon"></i>
+                    </div>
+                    <h3 class="text-center">Prontuários Eletrônicos</h3>
+                    <p class="text-center">Acesso rápido a todos os prontuários de forma organizada.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card feature-card h-100 p-4">
+                    <div class="text-center mb-3">
+                        <i class="bi bi-calendar-check feature-icon"></i>
+                    </div>
+                    <h3 class="text-center">Agendamento</h3>
+                    <p class="text-center">Sistema completo de agendamento de consultas.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Seção Sobre -->
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h2 class="fw-bold mb-4">Sobre o ProjetoSAC</h2>
+                <p class="lead">Uma solução completa para clínicas e consultórios médicos.</p>
+                <p>Desenvolvido com as melhores tecnologias para oferecer segurança, performance e usabilidade para profissionais da saúde e seus pacientes.</p>
+                <a href="#" class="btn btn-primary mt-3">Saiba mais</a>
+            </div>
+            <div class="col-lg-6">
+                <img src="https://via.placeholder.com/600x400" alt="Sobre o ProjetoSAC" class="img-fluid rounded shadow">
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
