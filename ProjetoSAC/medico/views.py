@@ -3,9 +3,14 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 from .models import Medico
 from .forms import MedicoForm
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+
 URL = '/medicos/'
 # Create your views here.
 
+@method_decorator(login_required, name='dispatch')
 class MedicoListView(ListView):
   model = Medico
   template_name = 'medico/medico_listar.html'
