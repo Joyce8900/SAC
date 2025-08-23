@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Detalhes da Consulta{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h4>Detalhes da Consulta</h4>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h5>Paciente:</h5>
+                    <p>{{ consulta.paciente.nome }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Médico:</h5>
+                    <p>Dr. {{ consulta.medico.nome }}</p>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h5>Data/Hora:</h5>
+                    <p>{{ consulta.data|date:"d/m/Y H:i" }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>Tipo:</h5>
+                    <p>{{ consulta.get_tipo_display }}</p>
+                </div>
+            </div>
+            
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <h5>Status:</h5>
+                    <span class="badge 
+                        {% if consulta.status == 'agendada' %}bg-primary
+                        {% elif consulta.status == 'realizada' %}bg-success
+                        {% else %}bg-warning{% endif %}">
+                        {{ consulta.get_status_display }}
+                    </span>
+                </div>
+                <div class="col-md-6">
+                    <h5>Criado em:</h5>
+                    <p>{{ consulta.criado_em|date:"d/m/Y H:i" }}</p>
+                </div>
+            </div>
+            
+            {% if consulta.observacoes %}
+            <div class="mb-3">
+                <h5>Observações:</h5>
+                <p>{{ consulta.observacoes }}</p>
+            </div>
+            {% endif %}
+            
+            <div class="d-flex justify-content-between">
+                <a href="{% url 'consulta:lista' %}" class="btn btn-secondary">
+                    Voltar
+                </a>
+                <div>
+                    <a href="#" class="btn btn-primary me-2">
+                        Editar
+                    </a>
+                    <a href="#" class="btn btn-danger">
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

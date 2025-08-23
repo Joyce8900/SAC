@@ -53,4 +53,4 @@ class Home(View):
             'username': request.user.username,
             'message': 'Login aprovado com sucesso!'
         }
-        return render(request, 'usuarios/home.html', context)
+        return render(request, 'home/home.html')

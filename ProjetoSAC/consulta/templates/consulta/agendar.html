@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Agendar Consulta{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Agendar Nova Consulta</h2>
+    
+    <form method="post" class="mt-4">
+        {% csrf_token %}
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_paciente" class="form-label">Paciente</label>
+                {{ form.paciente }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_medico" class="form-label">Médico</label>
+                {{ form.medico }}
+            </div>
+        </div>
+        
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_data" class="form-label">Data e Hora</label>
+                {{ form.data }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_tipo" class="form-label">Tipo de Consulta</label>
+                {{ form.tipo }}
+            </div>
+        </div>
+        
+        <div class="mb-3">
+            <label for="id_observacoes" class="form-label">Observações</label>
+            {{ form.observacoes }}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Agendar Consulta</button>
+    </form>
+</div>
+{% endblock %}
