@@ -1,0 +1,6 @@
+projectKey=SAC
+serverUrl=http://localhost:9000
+serverVersion=25.10.0.114319
+dashboardUrl=http://localhost:9000/dashboard?id=SAC
+ceTaskId=7e0ce5d6-c96b-4f2e-92da-8226c8c1c93d
+ceTaskUrl=http://localhost:9000/api/ce/task?id=7e0ce5d6-c96b-4f2e-92da-8226c8c1c93d
